@@ -5,3 +5,18 @@ let pokemonlist = [
     {name: 'Ninetales', height: 1.1, type: 'fire'},
     {name: 'Muk', height: 1.2, type: 'posion'}
 ];
+
+let text = "";
+
+
+for (let i =0;pokemonlist[i];i++) {
+    document.write(pokemonlist[i].name + ' ');
+    document.write(' Height: ' + pokemonlist[i].height + ' ');
+    if (pokemonlist[i].height > 1.1){
+        document.write(' Woah that\'s a big pokemon ');
+    } else if (pokemonlist[i].height < 1.1 && pokemonlist[i].height > .8) {
+        document.write(' Woah that\'s a average pokemon ');
+    } else {
+        document.write(' Woah that\'s a small pokemon');
+    }
+}
