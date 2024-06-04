@@ -23,20 +23,13 @@ when they are of a certain size.
 
 'function' created to re-use thise bit of code that print the array multiple times instead of typing it out. 
 */
+//forEach loop to replace above with more effiecient functionality. 
+pokemonList.forEach(function (pokemon) {
+  document.write('<p>' + pokemon.name + ' ' +  pokemon.height + ' ' + pokemon.type + '<p>');
 
-function printArrayDetails(list) {
-  for (let i = 0; i < list.length; i++) {
-    document.write("<p>" + list[i].name + " ");
-    document.write(" Height: " + list[i].height);
-    if (list[i].height > 1.1) {
-      document.write(" Wow that's a big Pokemon " + "<p>");
-    } else {
-      document.write("<p>");
-    }
-  }
-}
+});
+pokemonList2.forEach(function (pokemon) {
+  document.write('<p>' + pokemon.name + ' ' +  pokemon.height + ' ' + pokemon.type + '<p>');
 
-//'Calls' to the 'function' that prints out the 'array'
-printArrayDetails(pokemonList);
+});
 
-printArrayDetails(pokemonList2);
