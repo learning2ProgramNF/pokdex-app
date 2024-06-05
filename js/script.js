@@ -16,8 +16,32 @@ let pokemonRepository = (function () {
     { name: "Porygon", height: 0.8, type: [" normal"] },
   ];
   function add(pokemon) {
-    pokemonList.push(pokemon);
+    if (!pokemon) {
+      document.write("pokemon is undefined!");
+    } else if (Array.isArray(pokemon)) {
+      document.write(
+        "pokemon has a value, but it is not an object,Pokemon is an array."
+      );
+    } else if (typeof pokemon !== "object") {
+      document.write(
+        "pokemon has a value, but it is not an object, Pokemon is a",
+        typeof pokemon,
+        "."
+      );
+    } else if (typeof pokemon === "object") {
+      document.write(
+        "<p> " +
+          "Yes!  Go you!  pokemon is an object! <p> Your new pokemon is: " +
+          pokemon.name +
+          " " +
+          pokemon.height +
+          " " +
+          pokemon.type
+      );
+      pokemon.List.push(pokemon);
+    }
   }
+
   function getAll() {
     return pokemonList;
   }
@@ -42,3 +66,6 @@ pokemonRepository.getAll().forEach(function (pokemon) {
     document.write(" - Wow!!! that's a big Pokemon  " + "<p>");
   }
 });
+
+// Use add to see if it works
+pokemonRepository.add({ name: "Vulpix", height: 0.6, type: ["fire"] });
