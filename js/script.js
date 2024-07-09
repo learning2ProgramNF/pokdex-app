@@ -1,52 +1,34 @@
+// script.js
+
 let pokemonRepository = (function () {
   // Local object variable, with keys indicating name, height, and type for a database.
   let pokemonList = [
-    { name: "Bulbasaur", height: 0.7, type: ["grass", "poison"] },
-    { name: "Charizard", height: 1.7, type: ["fire", "flying"] },
-    { name: "Sandslash", height: 1.0, type: ["ground"] },
-    { name: "Ninetales", height: 1.1, type: ["fire"] },
-    { name: "Muk", height: 1.2, type: ["poison"] },
-    { name: "Magmar", height: 1.3, type: ["fire"] },
-    { name: "Gyarados", height: 6.5, type: ["water", "flying"] },
-    { name: "Dragonite", height: 2.2, type: ["dragon", "flying"] },
-    { name: "Diglett", height: 0.2, type: ["ground"] },
-    { name: "Porygon", height: 0.8, type: ["normal"] },
+    { name: "Bulbasaur", height: 0.7, types: ["grass", "poison"] },
+    { name: "Charizard", height: 1.7, types: ["fire", "flying"] },
+    { name: "Sandslash", height: 1.0, types: ["ground"] },
+    { name: "Ninetales", height: 1.1, types: ["fire"] },
+    { name: "Muk", height: 1.2, types: ["poison"] },
+    { name: "Magmar", height: 1.3, types: ["fire"] },
+    { name: "Gyarados", height: 6.5, types: ["water", "flying"] },
+    { name: "Dragonite", height: 2.2, types: ["dragon", "flying"] },
+    { name: "Diglett", height: 0.2, types: ["ground"] },
+    { name: "Porygon", height: 0.8, types: ["normal"] },
   ];
 
   // Function to add a Pokemon and check if it is a valid object.
   function add(pokemon) {
-    if (!pokemon) {
-      console.log("Pokemon is undefined!");
-    } else if (Array.isArray(pokemon)) {
-      console.log("Pokemon has a value, but it is not an object. It is an array.");
-    } else if (typeof pokemon !== "object") {
-      console.log("Pokemon has a value, but it is not an object. It is a", typeof pokemon, ".");
+    if (
+      typeof pokemon === "object" &&
+      "name" in pokemon &&
+      "height" in pokemon &&
+      "types" in pokemon
+    ) {
+      pokemonList.push(pokemon);
     } else {
-      let requiredKeys = ["name", "height", "type"];
-      let pokemonKeys = Object.keys(pokemon);
-      let valid = true;
-
-      requiredKeys.forEach((key) => {
-        if (!pokemonKeys.includes(key)) {
-          valid = false;
-          document.write(`Pokemon object is missing the required key: ${key}`);
-        }
-      });
-
-      if (valid) {
-        document.write(
-          "Yes! Go you! Pokemon is a valid object! Your new Pokemon is: " +
-            pokemon.name +
-            " " +
-            pokemon.height +
-            " " +
-            pokemon.type
-        );
-        pokemonList.push(pokemon);
-      }
+      console.log("pokemon is not correct");
     }
   }
-
+  
   // Function to get all Pokemon
   function getAll() {
     return pokemonList;
@@ -108,7 +90,9 @@ let pokemonRepository = (function () {
 
 // Test: Log all Pokemon and add a new Pokemon
 console.log(pokemonRepository.getAll());
-pokemonRepository.add({ name: "Pikachu", height: 0.3, type: ["electric"] });
+
+pokemonRepository.add({ name: "Pikachu", height: 0.3, types: ["electric"] });
+
 console.log(pokemonRepository.getAll());
 
 // forEach loop to display all Pokemon
