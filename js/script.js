@@ -28,7 +28,7 @@ let pokemonRepository = (function () {
       console.log("pokemon is not correct");
     }
   }
-  
+
   // Function to get all Pokemon
   function getAll() {
     return pokemonList;
@@ -39,15 +39,15 @@ let pokemonRepository = (function () {
     let filteredPokemon = pokemonList.filter(
       (pokemon) => pokemon.height > minHeight
     );
-    document.write("<p> Here are the Pokémon larger than: " + minHeight);
+    console.log("<p> Here are the Pokémon larger than: " + minHeight);
     filteredPokemon.forEach((pokemon) => {
-      document.write(
+      console.log(
         "<p>" +
-          pokemon.name +
-          " " +
-          pokemon.height +
-          " " +
-          pokemon.type.join(", ")
+        pokemon.name +
+        " " +
+        pokemon.height +
+        " " +
+        pokemon.type.join(", ")
       ); // join adds all elements of an Array into a string separated by commas
     });
     return filteredPokemon;
@@ -60,7 +60,7 @@ let pokemonRepository = (function () {
 
   // Function to add event listener to a button
   function addButtonEventListener(button, pokemon) {
-    button.addEventListener('click', function() {
+    button.addEventListener('click', function () {
       showDetails(pokemon);
     });
   }
