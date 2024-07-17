@@ -1,101 +1,103 @@
-// script.js
+let pokemonRepository = (function() {
+  let pokemonList = [];
+  let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
 
-let pokemonRepository = (function () {
-  // Local object variable, with keys indicating name, height, and type for a database.
-  let pokemonList = [
-    { name: "Bulbasaur", height: 0.7, types: ["grass", "poison"] },
-    { name: "Charizard", height: 1.7, types: ["fire", "flying"] },
-    { name: "Sandslash", height: 1.0, types: ["ground"] },
-    { name: "Ninetales", height: 1.1, types: ["fire"] },
-    { name: "Muk", height: 1.2, types: ["poison"] },
-    { name: "Magmar", height: 1.3, types: ["fire"] },
-    { name: "Gyarados", height: 6.5, types: ["water", "flying"] },
-    { name: "Dragonite", height: 2.2, types: ["dragon", "flying"] },
-    { name: "Diglett", height: 0.2, types: ["ground"] },
-    { name: "Porygon", height: 0.8, types: ["normal"] },
-  ];
-
-  // Function to add a Pokemon and check if it is a valid object.
   function add(pokemon) {
     if (
       typeof pokemon === "object" &&
-      "name" in pokemon &&
-      "height" in pokemon &&
-      "types" in pokemon
+      "name" in pokemon
     ) {
       pokemonList.push(pokemon);
     } else {
       console.log("pokemon is not correct");
     }
   }
-
-  // Function to get all Pokemon
   function getAll() {
     return pokemonList;
   }
-
-  // Function to filter Pokemon by height
-  function filterByHeight(minHeight) {
-    let filteredPokemon = pokemonList.filter(
-      (pokemon) => pokemon.height > minHeight
-    );
-    console.log("<p> Here are the Pokémon larger than: " + minHeight);
-    filteredPokemon.forEach((pokemon) => {
-      console.log(
-        "<p>" +
-        pokemon.name +
-        " " +
-        pokemon.height +
-        " " +
-        pokemon.type.join(", ")
-      ); // join adds all elements of an Array into a string separated by commas
-    });
-    return filteredPokemon;
-  }
-
-  // Function to show Pokemon details
-  function showDetails(pokemon) {
-    console.log(pokemon);
-  }
-
-  // Function to add event listener to a button
-  function addButtonEventListener(button, pokemon) {
-    button.addEventListener('click', function () {
+  //adds items to buttons and appends them for styling purposes
+  function addListItem(pokemon) {
+    let pokemonList = document.querySelector(".pokemon-list");
+    let listpokemon = document.createElement("li");
+    let button = document.createElement("button");
+    button.innerText = pokemon.name;
+    button.classList.add("button-class");
+    listpokemon.appendChild(button);
+    pokemonList.appendChild(listpokemon);
+    button.addEventListener("click", function(event) {
       showDetails(pokemon);
     });
   }
 
-  // Function to add list item and button for each Pokemon
-  function addListItem(pokemon) {
-    let pokemonListElement = document.querySelector(".pokemon-list");
-    let listPokemon = document.createElement("li");
-    let button = document.createElement("button");
-    button.innerText = pokemon.name;
-    button.classList.add("button-class");
-    listPokemon.appendChild(button);
-    pokemonListElement.appendChild(listPokemon);
-
-    // Add event listener to the button
-    addButtonEventListener(button, pokemon);
+  function showLoadingMessage() {
+    let loadingMessage = document.createElement("p");
+    loadingMessage.innerText = "Loading...";
+    document.body.appendChild(loadingMessage);
   }
 
-  // Public Interface: these are the only ways to interact with the functions within the IIFE
+  function hideLoadingMessage() {
+    document.body.removeChild(document.querySelector("p"));
+  }
+
+  function loadList() {
+    showLoadingMessage();
+    return fetch(apiUrl).then(function(response) {
+      return response.json();
+    }).then(function(json) {
+      hideLoadingMessage();
+      json.results.forEach(function(item) {
+        let pokemon = {
+          name: item.name,
+          detailsUrl: item.url,
+          imageUrl: "https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png"
+        };
+        add(pokemon);
+        console.log(pokemon);
+      });
+    }).catch(function(e) {
+      hideLoadingMessage();
+      console.error(e);
+    })
+  }
+
+  function loadDetails(item) {
+    showLoadingMessage();
+    let url = item.detailsUrl;
+    return fetch(url).then(function(response) {
+      return response.json();
+    }).then(function(details) {
+      hideLoadingMessage();
+      // Now we add the details to the item
+      item.imageUrl = details.sprites.front_default;
+      item.height = details.height;
+      item.types = details.types;
+    }).catch(function(e) {
+      hideLoadingMessage();
+      console.error(e);
+    });
+  }
+
+  function showDetails(item) {
+    pokemonRepository.loadDetails(item).then(function() {
+      console.log(item);
+    });
+  }
+
   return {
-    getAll: getAll,
     add: add,
-    filterByHeight: filterByHeight,
-    addListItem: addListItem
+    getAll: getAll,
+    addListItem: addListItem,
+    loadList: loadList,
+    loadDetails: loadDetails,
+    showDetails: showDetails
   };
 })();
 
-// Test: Log all Pokemon and add a new Pokemon
-console.log(pokemonRepository.getAll());
 
-pokemonRepository.add({ name: "Pikachu", height: 0.3, types: ["electric"] });
-
-console.log(pokemonRepository.getAll());
-
-// forEach loop to display all Pokemon
-pokemonRepository.getAll().forEach(function (pokemon) {
-  pokemonRepository.addListItem(pokemon);
+pokemonRepository.loadList().then(function() {
+  pokemonRepository.getAll().forEach(function(pokemon) {
+    pokemonRepository.addListItem(pokemon);
+  });
 });
+
+
