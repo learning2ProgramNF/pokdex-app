@@ -37,9 +37,9 @@ let pokemonRepository = (function () {
 //Creates an img element for the Pokemon image and sets its attributes
     let imageElement = document.createElement("img");
     imageElement.setAttribute("src", img);
-    imageElement.setAttribute("width", "200");
-    imageElement.setAttribute("height", "200");
     imageElement.setAttribute("alt", "Image of Pokemon");
+    imageElement.classList.add("responsive-image"); 
+//Make image repsonsive
 
 //Appends the close button, title, content, and image to the modal, then appends the modal to the modal container    
     modal.appendChild(closeButtonElement);
