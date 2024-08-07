@@ -1,22 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokédex</title>
-    <link rel="stylesheet" href="css/styles.css" type="text/css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokédex</title>
+  <link rel="stylesheet" href="css/styles.css" type="text/css">
 </head>
 
 <body>
-    <h1>Pokedex</h1>
-    <div class="pokedex-container">
-        <ul class="pokemon-list"></ul>
-        <div id="pokemon-details"></div>
-    </div>
-    <script src="js/promise-polyfill.js"></script>
-    <script src="js/fetch-polyfill.js"></script>
-    <script src="js/script.js"></script>
+  <h1>Pokédex</h1>
+  <div id="pokedex-container" class="pokedex-container">
+    <ul class="pokemon-list"></ul>
+  </div>
+  <div id="modal-container"></div>
+  <script src="js/promise-polyfill.js"></script>
+  <script src="js/fetch-polyfill.js"></script>
+  <script src="js/script.js"></script>
 </body>
 
 </html>
+
+/*
+- basic structure of a webpage
+- 'head' section invludes meta information and a link to the CSS file
+- 'body' contains the main content: a heading, a container for the Pokemon list, and a container for the modal
+- it also includes scripts for polyfills(promise and fetch) and the main Javascript file
+*/
